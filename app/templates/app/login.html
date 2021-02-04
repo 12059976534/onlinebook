@@ -1,0 +1,30 @@
+{% extends 'basetemplates.html' %}
+
+
+{% block content %}
+  <a href="{% url 'index' %}" class="nav-link"><button class=" form-control mt-3 ml-2 bg-primary" style="max-width: 100px;">Home</button></a>
+   <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div class="kotak bg-primary form-control" style="max-width: 450px; min-height: 400px;">
+          <form class="mt-3 ml-3 mr-3" action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <center class="mb-5">please login here</center>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address or username</label>
+              <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-info form-control mt-3">login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+   </div>
+{% endblock content %}

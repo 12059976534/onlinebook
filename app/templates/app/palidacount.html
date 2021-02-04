@@ -1,0 +1,30 @@
+{% extends 'basetemplates.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+      </div>
+      
+    <div class="col-md-6">
+      <div class="kotak mt-5 bg-primary form-control" style="max-width: 500px; min-height: 500px;">
+       <center><img src="" alt=""></center>
+        <div class="form ml-3 mr-3 mb-3 mt-5">
+          <form class="" action="{% url 'palidacount' %}" method="POST" >
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputPassword1">lihat code verifikasi di email anda</label>
+              <input type="text" name="peripikasi" class="form-control" id="exampleInputPassword1" placeholder="enter code 6 digit"
+              minlength="6" maxlength="6"
+              >
+            </div>
+            
+            <button type="submit" class="btn btn-info form-control mb-5 mt-3">verivikasi your account</button>
+          </form>
+        </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

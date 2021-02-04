@@ -1,0 +1,54 @@
+
+{% extends 'basetemplates.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        
+      <div class="col-md-6">
+        <div class="kotak mt-5 bg-primary form-control" style="max-width: 500px; min-height: 500px;">
+         <center><img src="" alt=""></center>
+          <div class="form ml-3 mr-3 mb-3 mt-5">
+            <form class="" action="{% url 'updatebuku' data.id %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputEmail1">judul</label>
+                <input type="text" value="{{data.judul}}" name="judul" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="judul buku">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">penulis</label>
+                <input type="text" value="{{data.penulis}}" name="penulis" class="form-control" id="exampleInputPassword1" placeholder="penulis buku">
+              </div>
+  
+              <div class="form-group">
+                <label for="exampleInputPassword1">penerbit</label>
+                <input type="text" value="{{data.penerbit}}" name="penerbit" class="form-control" id="exampleInputPassword1" placeholder="penerbit buku">
+              </div>
+  
+              <div class="form-group">
+                  <label for="sel1">Select kategori:</label>
+                  <select class="form-control" name="kategori" id="sel1">
+                     
+                   {% for data in kategori %}  
+                   <option value="{{data}}">{{data}}</option>
+                   {% endfor %}
+                   
+                  </select>
+              </div>
+  
+                <div class="form-group">
+                  <label for="exampleFormControlFile1">pdf file</label>
+                  <input type="file" required accept="application/pdf" name="myfile" class="form-control" id="exampleFormControlFile1">
+                </div>
+              
+              <button type="submit" class="btn btn-info form-control mb-5 mt-3">registrasi</button>
+            </form>
+          </div>
+      </div>
+  
+      </div>
+    </div>
+  </div>
+{% endblock content%}

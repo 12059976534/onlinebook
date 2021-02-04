@@ -1,0 +1,29 @@
+{% extends 'profilebase.html' %}
+
+{% block content %}
+
+
+<div class="mb-2 border-bottom">
+    Name: {{data.nama|lower|capfirst }}
+</div>
+<div class="mb-2 border-bottom">
+    Username: {{data.username|lower|capfirst }}
+</div>
+
+<div class=" mb-2 border-bottom">
+    Email:{{data.email|lower|capfirst }}
+</div>
+
+<div class="mb-2 border-bottom" >
+    Pendaptaran: {{data.date|date:"d-M-Y "}}
+</div>
+
+<a class="nav-link" href="{% url 'upaccount' data.id %}"><button class="form-control">update acount</button></a>
+
+
+
+
+
+
+
+{% endblock content %}

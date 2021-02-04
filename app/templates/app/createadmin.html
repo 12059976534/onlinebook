@@ -1,0 +1,50 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        
+      <div class="col-md-6">
+        <div class="kotak mt-5 bg-primary form-control" style="max-width: 500px; min-height: 600px;">
+         <center><img src="" alt=""></center>
+          <div class="form ml-3 mr-3 mb-3">
+            <form class="" action="{% url 'register' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="sandi" value="1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">name</label>
+                <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">email</label>
+                <input type="email" name="email" class="form-control" id="exampleInputPassword1" placeholder="enter your email">
+              </div>
+  
+              <div class="form-group">
+                <label for="exampleInputPassword1">username</label>
+                <input type="text" name="username" class="form-control" id="exampleInputPassword1" placeholder="your username">
+              </div>
+  
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+  
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="passwordpalid" class="form-control" id="exampleInputPassword1" placeholder="one more enter your password">
+              </div>
+              
+              <button type="submit" class="btn btn-info form-control mb-5 mt-3">registrasi</button>
+            </form>
+          </div>
+      </div>
+  
+      </div>
+    </div>
+  
+
+{% endblock content %}

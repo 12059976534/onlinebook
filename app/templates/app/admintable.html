@@ -1,0 +1,84 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+
+<!-- table user -->
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables of admin</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>username</th>
+                            <th>Start date</th>
+                            <th>actions</th>
+                            
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>actions</th>
+                            
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        
+                        {% for data in admin %}
+                        <tr>
+                            <td>{{data.nama}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.username}}</td>
+                            <td>{{data.date|date:"M d, Y"}}</td>
+                            <th><div class="row">
+
+                                <a href="{% url 'updateuser' data.id %}"><i class="fas fa-edit ml-3"></i></a>
+                                <h3 class="mr-2 ml-2">/</h3>
+                                <a href="{% url 'deletuser' data.id %}" onclick="return confirm('aryou sure to delete this ??')" ><i class="fas fa-trash-alt"></i></a>
+                                
+                            </div></th>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        
+    </div>
+
+
+    <!-- admin -->
+
+
+</div>
+
+
+
+<!-- end table user -->
+
+<!-- table user admin -->
+
+
+
+
+<!-- end table user admin -->
+
+
+{% endblock content %}

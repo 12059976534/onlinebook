@@ -1,0 +1,123 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Jumlah user</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{jumlahuser}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Jumlah admin</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{jumlahadmin}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            total penguna admin+user</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{all}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            jumlah buku</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{buku}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container">
+     
+        <canvas id="oilChart" width="600" height="400" style="max-width: 500px; min-height: 300px;"></canvas> 
+        
+    </div>
+
+
+    <!-- scripts -->
+    <script>
+    
+    
+    // diagram lingkar
+var oilCanvas = document.getElementById("oilChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var oilData = {
+    labels: [
+        "Teknik",
+        "Politik",
+        "Religion",
+        
+    ],
+    datasets: [
+        {
+            data: ['{{teknik}}', '{{politik}}', '{{religion}}',],
+            backgroundColor: [
+                "#FF6384",
+                "#8463FF",
+                "#6384FF"
+            ]
+        }]
+};
+
+var pieChart = new Chart(oilCanvas, {
+  type: 'pie',
+  data: oilData
+});
+    
+    
+    </script>
+    <!-- endscripts -->
+{% endblock content %}
