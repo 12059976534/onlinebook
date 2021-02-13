@@ -28,6 +28,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'app.User'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_FILE_PATH= str(BASE_DIR.joinpath('emailsend'))
+
+
+# email seting for reset password fitur
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jekomontainugrah@gmail.com'
+EMAIL_HOST_PASSWORD = '120599$3'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Online book<jekomontainugrah@gmail.com>'
+
+# ====================================
 
 # Application definition
 
@@ -39,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -121,4 +139,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/file')
-STATIC_ROOT= os.path.join(BASE_DIR,'staticfile')
+# STATIC_ROOT= os.path.join(BASE_DIR,'staticfile')

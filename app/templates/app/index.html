@@ -12,14 +12,17 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
-    <title>Hello, world!</title>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>        
+        <!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
+    <title>onlinebook</title>
   </head>
   <body>
 
+   
+
     <!-- navs -->
-    <nav class="navbar navbar-expand-lg navbar-light ">
-        <a class="navbar-brand text-primary" href="#"><i class="fas fa-book-open mr-2 text-primary"></i>online book</a>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light " style="background-color: rgb(26, 64, 231);">
+        <a class="navbar-brand text-dark" href="#"><i class="fas fa-book-open mr-2 text-dark"></i>online book</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,16 +30,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link text-primary" href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link text-white" href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a>
               </li>    
             <li class="nav-item active">
-              <a class="nav-link text-primary" href="{% url 'login' %}">login<span class="sr-only">(current)</span></a>
+              <a class="nav-link text-white" href="{% url 'login' %}">login<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'register' %}">registrasi</a>
+              <a class="nav-link text-white" href="{% url 'register' %}">registrasi</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 kategori buku
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -47,43 +50,228 @@
             </li>
             
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            BACALAH
+           
+          <!-- searchh -->
+          <form action="{% url 'search' %}" method="POST" id="formr-search">
+            {% csrf_token %}
+            <div class="" style="border-radius: 20px; border-style: solid; border-color: rgb(149, 156, 248); outline: none; ">
+              <input class="ml-3 mr-3 " name="search" id="search" placeholder="Search" aria-label="Search" style="outline: none; border: 0px;  background-color: rgba(255, 0, 0, 0); ">
+
+              <button id="button" type="submit" style="border-style: solid; border-color: rgb(125, 116, 253);border-top: none; border-bottom: none; border-right: none; outline: none; background-color: rgba(255, 0, 0, 0);"><a href=""><i class="fas fa-search text-white"></i></a></button>
+            </div>
+          </form>
+        
+
+          <form class="form-inline my-2 my-lg-0 ml-3">
+            <a href="{% url 'profile' %}" class="nav-link text-white">Profile</a>
           </form>
         </div>
       </nav>
     <!-- navs -->
     
+
     <!-- content -->
-    <div class="container">
-        <div class="row">
-           {% for data in data %}
-            <div class="card mr-3 ml-3 mt-3 mb-3" style="width: 18rem; background-color: rgb(237, 237, 252);">
-                <div class="card-body">
-                    <div class="row">
-                        <i class="fas fa-book-open col-md-6 text-primary"></i>
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4 border">{{data.kategori}}</div>
-                    </div>
-                  <h5 class="card-title">judul:{{data.judul}}</h5>
-                  <p class="card-text">penulis:{{data.penulis}}</p>
-                  <a href="{% url 'baca' data.id %}" class="nav-link form-control">Baca</a>
-                </div>
-              </div>
-            {% endfor %}  
 
-              
+     
+    
+    <div class="row hasil mt-5 " style="width: 100%; ") >
 
+      <div class=" col-md-7  " style="background-color: rgb(255, 255, 255);">
+        <div class="row container" id="hasil"  style="margin-left: 2%;">
         </div>
+
+        <div id="more-data">
+        </div>
+      </div>    
+
+      <div class="col-md-5" style="background-color: rgb(255, 255, 255);">
+
+        <div class="card  mb-3 mt-5" style="background-color: rgb(6, 80, 74);">
+          <div class="card-body font-italic">
+            <h5 class="card-title" style="font-size: 15px;">You can publish your book <a href="{% url 'uploadbuku'%}">here</a> , share your knowledge with everyone, #we are together towards a better future</h5>
+          </div>
+        </div>
+
+        <div class="card  mb-3" style="
+        background-size: cover;
+        background-repeat: no-repeat, repeat;
+        background-color:teal;">
+          <div class="card-body font-italic">
+            <h5 class="card-title font-weight-bold " style="color: rgb(7, 68, 68); font-size: 25px;">
+              mulailah belajar dari sekarang, disini tidak ada sistem rengking yang akan menilai kemampuan seseorang,
+              jika kita bisa meraih masadepan yang lebih baik bersama sama kenapa harus berkopetisi, ingat gak ada sistem rengking
+              dis ini
+            </h5>
+          </div>
+      </div>
+      
+        
+      </div>
     </div>
     <!-- content -->
 
+
+    <!-- tescript -->
+
+<!--         
+
+       <script>
+
+
+        
+
+       
+$(document).ready(function(){
+    var s="{{jumlah}}";
+        
+    var jumlah=parseInt(s); 
+
+
+    var limit=jumlah-8;
+    var start=jumlah;
+    
+  var action ='inactivate'
+
+  
+
+    function load_post_data(limit,start){
+
+      console.log(start,limit)
+      // const judul= document.getElementById("search").value
+      // console.log("ddddddddddddddddddddddddddddddddddddddddddddddddddd",judul)
+      $.ajax({
+        url:'fetch/',
+        method:'GET',
+        data:{
+          limit:limit,
+          start:start,
+          // judul:judul,
+        },
+        caches:false,
+
+        success:function(response){
+          $('#hasil').append(response);
+          console.log(response)
+          if(response == ""){
+            $("#more-data").html("<button type='button' class='btn btn-info mb-2'>not found !!</button>");
+            action = 'activate';
+          }else{
+
+            $("#more-data").html("<div class='mb-2 text-primary font-weight-bold font-italic' style='margin-left:30%'>loading book....</div>");
+            action = 'inactivate';
+            setTimeout(function(){
+              $("#more-data").html("<button type='button' class='mb-2 btn btn-success' style='margin-left:30%'>All book</button>");
+              }, 5000);
+
+          }
+        }
+      })
+    }
+
+    if (action =='inactivate') {
+      action='activate'
+      load_post_data(limit,start);
+      
+    }
+
+    $(window).scroll(function(){
+      if($(window).scrollTop() + $(window).height() > $('#hasil').height() && action == 'inactivate'){
+        action = 'activate';
+
+        if(start<0 || limit<0 ){
+
+        start=start-8;
+        limit=0;
+        setTimeout(function(){
+          load_post_data(limit,start);
+          
+        },1000)
+          
+        }else{
+        start=start-8;
+        limit=limit-8;
+        setTimeout(function(){
+          load_post_data(limit,start);
+          
+        },1000)
+       }
+      }
+    })
+
+
+
+  /////////////////////////////////////
+
+
+ });
+
+
+// search
+
+
+
+
+
+
+
+
+
+
+
+
+       </script> -->
+
+
+
+
+    <!-- tescript -->
+
+
+
+
+
+
+
+
+
+    
+    <script src='{% static "js/lazy.js" %}'></script>
+
+    <!-- footer -->
+  <div class="text-center" style="width: 100%; background-color: rgb(239, 234, 245);">
+  
+    <div class="card-body">
+      <h5 class="card-title">follow us</h5>
+      
+        <center>
+          
+
+          <table class="mb-5 ">
+            <div>
+              <tr><a href=""><i class="fab fa-facebook mr-5 mt-5" style="font-size: 30px;"></i></a></tr>
+              <tr><a href=""><i class="fab fa-twitter-square mr-5" style="font-size: 30px;"></i></a></tr>
+              <tr><a href=""><i class="fab fa-instagram mr-5" style="font-size: 30px;"></i></a></tr>
+              <tr><a href=""><i class="fab fa-youtube" style="font-size: 30px;"></i></a></tr>
+            </div>
+          </table>
+
+        </center>
+     
+      
+    <div class="card-footer text-muted">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; onlinebook 2021</span>
+    </div>
+    </div>
+  </div>
+  <!-- fotter -->
+  
 
 
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

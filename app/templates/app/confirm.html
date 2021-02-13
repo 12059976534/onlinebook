@@ -1,0 +1,37 @@
+{% extends 'basereset.html' %}
+{% load widget_tweaks %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row" style="max-width: 100%;">
+    <div class="col-md-4"></div>
+    <div class="col-md-7">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="border border-primary mt-5" style="max-width: 300px; margin-left: 10%;">
+            
+            {% for field in form.visible_fields %}
+                <div class="form-group mt-4 ml-3 mb-3 mr-3">
+                    <label class="" for="{{ field.id_for_label }}">{{ field.label }}</label>   
+                    {{ field|add_class:'form-control' }}
+                </div>
+                    {% if field.errors %}
+                        <center>
+                            {{field.errors}}
+                        </center>
+                    {% endif %}
+           
+            {% endfor %}
+         <center>
+         <button type="submit" class="btn btn-outline-primary mt-2 mb-3 ">ResetPassword</button>
+        </center>
+         </div>
+        </form>
+    
+    </div>
+</div>
+
+    
+{% endblock content %}

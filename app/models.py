@@ -1,6 +1,6 @@
 
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
@@ -10,13 +10,14 @@ class Leveluser(models.Model):
     def __str__(self):
         return '%s' % (self.level)
 
-class User(models.Model):
+class User(AbstractUser):
     nama=models.CharField(max_length=200)
-    email=models.EmailField(max_length=200)
-    username=models.CharField(max_length=300)
+    email=models.EmailField(max_length=200,unique=True)
+    username=models.CharField(max_length=300,unique=True)
     password=models.CharField(max_length=100)
     date=models.DateTimeField(auto_now_add=True, blank=True,null=True)
     leveluser=models.ForeignKey(Leveluser,on_delete=models.CASCADE,null=True, default=1)
+
 
     def __str__(self):
         return " %s %s %s %s " % (self.nama,self.username,self.email,self.leveluser)

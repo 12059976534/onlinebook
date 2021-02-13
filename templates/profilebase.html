@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Blank</title>
+    <title>onlinebook</title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -45,13 +45,13 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile' %}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-user-circle"></i>
                     <span>Data</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'mybook' %}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-book"></i>
                     <span>Mybook</span></a>
             </li>
 
@@ -96,15 +96,17 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars">  </i>
                     </button>
-
                     
+                    <a href="{% url 'index' %}" class=" btn btn-link rounded-circle ">
+                        <i style="font-size: 20px;" id="icon" class="fas fa-home"></i>
+                    </a>
         
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
                        
-                        <a href="{% url 'adminku' %}" class="nav-link"><button class="form-control mt-2 " style="max-width: 100px;">admin</button></a>
+                        <a href="{% url 'adminku' %}" class="nav-link"><button class="form-control mt-2 " style="max-width: 100px;"><i class="fas fa-user-cog"></i>admin</button></a>
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -149,7 +151,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; onlinebook 2021</span>
                     </div>
                 </div>
             </footer>

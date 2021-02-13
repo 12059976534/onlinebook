@@ -18,63 +18,109 @@
   <body>
 
     <!-- navs -->
-    <nav class="navbar navbar-expand-lg navbar-light ">
-        <a class="navbar-brand text-primary" href="#"><i class="fas fa-book-open mr-2 text-primary"></i>online book</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-lg  navbar-light " style="background-color: rgb(26, 64, 231);">
+      <a class="navbar-brand text-dark" href="#"><i class="fas fa-book-open mr-2 text-dark"></i>online book</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+              <a class="nav-link text-white" href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a>
+            </li>    
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="{% url 'login' %}">login<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'register' %}">registrasi</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              kategori buku
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% for data in kategori %}  
+              <a class="dropdown-item" href="{% url 'bacabuku' data.id %}">{{data.kategori}}</a>
+              {% endfor %}
+            </div>
+          </li>
+          
+        </ul>
+         
+        <!-- searchh -->
+        <form action="{% url 'search' %}" method="POST" id="formr-search">
+          {% csrf_token %}
+          <div class="" style="border-radius: 20px; border-style: solid; border-color: rgb(149, 156, 248); outline: none; ">
+            <input class="ml-3 mr-3 " name="search" id="search" placeholder="Search" aria-label="Search" style="outline: none; border: 0px;  background-color: rgba(255, 0, 0, 0); ">
+
+            <button id="button" type="submit" style="border-style: solid; border-color: rgb(125, 116, 253);border-top: none; border-bottom: none; border-right: none; outline: none; background-color: rgba(255, 0, 0, 0);"><a href=""><i class="fas fa-search text-white"></i></a></button>
+          </div>
+        </form>
       
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link text-primary" href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a>
-              </li>  
-            <li class="nav-item active">
-              <a class="nav-link text-primary" href="{% url 'login' %}">login<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-primary" href="#">registrasi</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                kategori buku
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for data in kategori %}  
-                <a class="dropdown-item" href="{% url 'bacabuku' data.id %}">{{data.kategori}}</a>
-                {% endfor %}
-              </div>
-            </li>
-            
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            BACALAH
-          </form>
-        </div>
-      </nav>
+
+        <form class="form-inline my-2 my-lg-0 ml-3">
+          <a href="{% url 'profile' %}" class="nav-link text-white">Profile</a>
+        </form>
+      </div>
+    </nav>
     <!-- navs -->
     
     <!-- content -->
-    <div class="container">
-        <div class="row">
-           {% for data in data %}
-            <div class="card mr-3 ml-3 mt-5" style="width: 18rem; background-color: rgb(237, 237, 252);">
-                <div class="card-body">
-                    <div class="row">
-                        <i class="fas fa-book-open col-md-6 text-primary"></i>
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4 border">{{data.kategori}}</div>
-                    </div>
-                  <h5 class="card-title">judul:{{data.judul}}</h5>
-                  <p class="card-text">penulis:{{data.penulis}}</p>
-                  <a href="{% url 'baca' data.id %}" class="nav-link form-control">Baca</a>
+    <div class="container col-md-9">
+        <div class="row ml-2 mt-5">
+           {% for data in users %}
+           <div class="card mr-3 ml-3 mt-3 mb-3" id="cardc" style="width: 18rem; background-color: rgb(20, 17, 226);">
+            <div class="card-body ">
+                <div class="row">
+                    <i class="fas fa-book-open col-md-6 text-primary"></i>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4 ">{{data.kategori}}</div>
                 </div>
-              </div>
+                <h5 class="card-title">Judul:{{data.judul}}</h5>
+                <p class="card-text">penulis:{{data.penulis}}</p>
+                <a href="{% url 'baca' data.id %}" class="nav-link" style="background-color: rgb(0, 0, 0);">Baca</a>
+            </div>
+            </div>
             {% endfor %}  
 
               
 
         </div>
+         
+
+        <div class="fixed-bottom ml-3">
+
+          <center>
+         
+              {% if users.has_other_pages %}
+              <ul class="pagination">
+                  {% if users.has_previous %}
+                      <li><a class="page-link" href="?page={{ users.previous_page_number }}">«</a></li>
+                  {% else %}
+                      <li class="disabled page-link"><span>«</span></li>
+                  {% endif %}
+                      {% for i in users.paginator.page_range %}
+                          {% if users.number == i %}
+                              <li class="active bg-primary text-white page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                          {% else %}
+                              <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                      {% endfor %}
+                      {% if users.has_next %}
+                      <li><a class="page-link" href="?page={{ users.next_page_number }}">»</a></li>
+                      {% else %}
+                      <li class="disabled page-link"><span>»</span></li>
+                      {% endif %}
+              </ul>
+              
+              {% endif %}
+
+          </center>
+
+      </div>
+
+
     </div>
     <!-- content -->
 

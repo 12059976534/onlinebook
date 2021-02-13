@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -7,10 +8,14 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <title>onlinebook</title>
   </head>
   <body>
+
+    {% block navs %}
+    {% endblock navs %}
+
     {% block content %}
     {% endblock content %}
 

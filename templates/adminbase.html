@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Blank</title>
+    <title>onlinebook</title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -43,6 +43,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+            
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'adminku' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -76,8 +77,14 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">user or admin</h6>
-                        <a class="collapse-item" href="{% url 'newadmin' %}">create new admin</a>
-                        <a class="collapse-item" href="{% url 'register' %}">create user</a>
+                        <a class="collapse-item" href="{% url 'newadmin' %}">
+                            <i class="fas fa-user-cog"></i>
+                            create new admin
+                        </a>
+                        <a class="collapse-item" href="{% url 'register' %}">
+                            <i class="fas fa-user-circle"></i>
+                            create user
+                        </a>
                         
                     </div>
                 </div>
@@ -94,18 +101,18 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">user or admin</h6>
                         <a class="collapse-item" href="{% url 'tableuser' %}">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Tables users</span></a>
+                            <i class="fas fa-user-circle"></i>
+                            <span>Tables of users</span></a>
                         </a>
 
                         <a class="collapse-item" href="{% url 'tableadmin' %}">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Tables admin</span></a>
+                            <i class="fas fa-user-cog"></i>
+                            <span>Tables of admin</span></a>
                         </a>
 
                         <a class="collapse-item" href="{% url 'tablebuku' %}">
-                            <i class="fas fa-fw fa-table"></i>
-                            <span>Tables buku</span></a>
+                            <i class="fas fa-book"></i>
+                            <span>Tables of book</span></a>
                         </a>
                        
                         
@@ -142,6 +149,10 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars">  </i>
                     </button>
+
+                    <a href="{% url 'index' %}" class=" btn btn-link rounded-circle ">
+                        <i style="font-size: 20px;" id="icon" class="fas fa-home"></i>
+                    </a>
 
                     
         
@@ -200,7 +211,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; onlinebook 2021</span>
                     </div>
                 </div>
             </footer>

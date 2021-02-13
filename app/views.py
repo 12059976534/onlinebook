@@ -6,16 +6,22 @@ import uuid
 from django.http import HttpResponseRedirect
 from errno import ENETUNREACH
 
+from django.db.models import Q
+
 from django.core.files.storage import FileSystemStorage
 import os
 from django.conf import settings
 from django.http import FileResponse, Http404
 
+from django.template.loader import render_to_string
+
 
 import io
 from django.http import FileResponse
+from django.http import JsonResponse
 from reportlab.pdfgen import canvas
-
+from django.contrib import messages      
+        
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
@@ -27,17 +33,105 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.hashers import make_password, check_password
+
 
 # Create your views here.
 def index(request):
-    data=models.Buku.objects.all()
+    
     kategori=models.Kategoribuku.objects.all()
-    return render(request,'app/index.html',{'data':data,'kategori':kategori})
+    jumlah=models.Buku.objects.all()
+    return render(request,'app/index.html',{'kategori':kategori,'jumlah':len(jumlah)})
+
+def search(request):
+    if request.method == 'POST':
+        
+            global search
+            search=request.POST['search']
+            data=models.Buku.objects.filter(Q(judul__icontains=search)|Q(penulis__icontains=search)|Q(penerbit__icontains=search))
+    
+            # paginate
+            page = request.GET.get('page', 1)
+
+            paginator = Paginator(data, 6)
+            try:
+                users = paginator.page(page)
+            except PageNotAnInteger:
+                users = paginator.page(1)
+            except EmptyPage:
+                users = paginator.page(paginator.num_pages)
+
+            # end
+
+            kategori=models.Kategoribuku.objects.all()
+            return render(request,'app/seach.html',{'kategori':kategori,'users':users,'search':search})
+
+    data=models.Buku.objects.filter(Q(judul__icontains=search)|Q(penulis__icontains=search)|Q(penerbit__icontains=search))
+
+    # paginate
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 6)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    # end
+
+    kategori=models.Kategoribuku.objects.all()
+    return render(request,'app/seach.html',{'kategori':kategori,'users':users,'search':search})    
+
+def post_search(request):
+     if request.is_ajax():
+        limite=request.GET.get('limit')
+        starts=request.GET.get('start')
+        post=models.Buku.objects.all()[int(starts):int(limite)]
+        
+        return render(request,'app/research.html',{'post_list':post})
+
+
+def post_fect(request):
+    if request.is_ajax():
+        limit=request.GET.get('limit')
+        start=request.GET.get('start')
+        li=[] 
+        post=models.Buku.objects.values()
+
+        try:
+            for i in range(int(start),int(limit)):
+                li.append(post[len(post)-i])
+            print("jumlah literasi:",i) 
+            print("jumlah limit",limit)    
+        except AssertionError:
+            print(AssertionError) 
+        return render(request,'app/result.html',{'post_list':li})
+           
+
+
 
 def bacabuku(request,id):
     kategori=models.Kategoribuku.objects.all()
     data=models.Buku.objects.filter(kategori=id)
-    return render(request,'app/bacabuku.html',{'data':data,'kategori':kategori})    
+
+    # paginate
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(data, 6)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    # end
+
+
+    return render(request,'app/bacabuku.html',{'kategori':kategori,'users':users})    
 
 def baca(request,id):
     data=models.Buku.objects.get(id=id)
@@ -80,16 +174,20 @@ def register(request):
         code=my_random_string(6)
         cod.clear()
         cod.append(code)
-        codeperivikasi="haii "+name+"berikut kode veripikasi anda "+code
+        codeperivikasi="haii "+name+"following your verification code "+code
         
-        subjek='verivikasi'
+        subjek='online book verification'
 
-        data=models.User.objects.filter(nama=name)
+        data=models.User.objects.filter(username=username)
         if data:
-            return HttpResponse("pilih nama yang lain")
+            # return HttpResponse("pilih username yang lain")
+            messages.warning(request,'choose another username !!',extra_tags='inpaliduser')
+            return HttpResponseRedirect(reverse('register'))
         data=models.User.objects.filter(email=email)    
         if data:
-            return HttpResponse("email telah terdaptar")
+            # return HttpResponse("email telah terdaptar")
+            messages.warning(request,'email has been registered !!',extra_tags='inpalidemail')
+            return HttpResponseRedirect(reverse('register'))
         try:
             # tricky code goes here
             sending.kirim(str(codeperivikasi),subjek,email)
@@ -101,26 +199,32 @@ def register(request):
                 return HttpResponse("101")
             else:
                 return HttpResponse("no internet conection") 
-           
-    return render(request,'app/register.html')
+    kategori=models.Kategoribuku.objects.all()       
+    return render(request,'app/register.html',{'kategori':kategori})
 
 def palidacount(request):
     if request.method == 'POST':
         peripikasi=request.POST['peripikasi']
         if cod[0] == peripikasi:
             data=models.User.objects.all()
+            print("dataaaaaaaaaaaaaaaa:",data)
             if kodeku == '1':   
-                level=models.Leveluser.objects.get(id=2)   
-                s=models.User(nama=nama,email=mail,username=user,password=pas,leveluser=level) 
+                level=models.Leveluser.objects.get(level=2)
+                passwordku=make_password(pas)     
+                s=models.User(nama=nama,email=mail,username=user,password=passwordku,leveluser=level) 
                 s.save()  
                 return HttpResponseRedirect(reverse('login'))
-            if data:       
-               s=models.User(nama=nama,email=mail,username=user,password=pas) 
+            if data and len(data) > 1:   
+               print("prossssssses user")     
+               level=models.Leveluser.objects.get(level=1)   
+               passwordku=make_password(pas)
+               s=models.User(nama=nama,email=mail,username=user,password=passwordku,leveluser=level) 
                s.save()
                return HttpResponseRedirect(reverse('login'))   
-            
-            level=models.Leveluser.objects.get(id=2)   
-            s=models.User(nama=nama,email=mail,username=user,password=pas,leveluser=level) 
+            print("prossssssses admin")
+            level=models.Leveluser.objects.get(level=2)
+            passwordku=make_password(pas)   
+            s=models.User(nama=nama,email=mail,username=user,password=passwordku,leveluser=level) 
             s.save()  
             return HttpResponseRedirect(reverse('login'))
         pass    
@@ -134,12 +238,10 @@ def login(request):
     if request.method == 'POST':
         username=request.POST['username']
         passwords=request.POST['password']
-
-        
         user=models.User.objects.filter(username=username) 
         if user:
             user=models.User.objects.get(username=username)
-            if passwords==user.password:
+            if check_password(passwords,user.password):
                request.session['user'] = username
                jalur=models.User.objects.get(username=username)
                jal=str(jalur.leveluser)
@@ -147,22 +249,25 @@ def login(request):
                      return HttpResponseRedirect(reverse('profile'))
                return HttpResponseRedirect(reverse('adminku'))      
                
-            return HttpResponse(" cek password")   
+            messages.warning(request,'Invalid password !!',extra_tags='inpalidpas') 
+            return render(request,'app/login.html') 
 
         email=models.User.objects.filter(email=username)
         if email:
             email=models.User.objects.get(email=username)
-            if passwords==email.password:
-                request.session['user'] = username
+            if check_password(passwords,email.password):
+                request.session['user'] = email.username
                 jalur=models.User.objects.get(email=username)
                 jal=str(jalur.leveluser)
                 if jal == "1":
                      return HttpResponseRedirect(reverse('profile'))
                 return HttpResponseRedirect(reverse('adminku'))     
-            return HttpResponse("cek password")    
-       
+            messages.warning(request,'Invalid password !!',extra_tags='inpalidpas')
+            return HttpResponseRedirect(reverse('login'))    
+        messages.info(request,'account is not palid or not registered',extra_tags='not_exist')  
         return render(request,'app/login.html')
-    return render(request,'app/login.html')
+    kategori=models.Kategoribuku.objects.all()    
+    return render(request,'app/login.html',{'kategori':kategori})
 
 def uploadbuku(request):
     if request.session.has_key('user'):

@@ -1,0 +1,14 @@
+{% for data in post_list %}
+    <div class="card mr-3 ml-3 mt-3 mb-3" style="width: 18rem; background-color: rgb(20, 17, 226);">
+        <div class="card-body">
+            <div class="row">
+                <i class="fas fa-book-open col-md-6 text-primary"></i>
+                <div class="col-md-2"></div>
+                <div class="col-md-4 ">{{data.kategori}}</div>
+            </div>
+            <h5 class="card-title">Judul:{{data.judul}}{{data.id}}</h5>
+            <p class="card-text">penulis:{{data.penulis}}</p>
+            <a href="{% url 'baca' data.id %}" class="nav-link" style="background-color: rgb(0, 0, 0);">Baca</a>
+        </div>
+        </div>
+{% endfor %}  

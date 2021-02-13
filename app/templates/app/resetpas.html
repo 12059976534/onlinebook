@@ -1,0 +1,42 @@
+{% extends 'basereset.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<div class="row " style="width:100%;">
+    <div class="col-md-12" style="min-height: 100%;">
+        <center>
+
+            <div class="border border-primary" style="max-width: 300px; min-height: 150px; text-align: center; margin-top: 100px;" >
+            
+            <form class=""  id="e" method="post" >
+               
+                {% csrf_token %}
+               
+                {% for field in form.visible_fields %}
+                <div class="form-group mt-3 ml-3 mb-3 mr-3">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field|add_class:'form-control' }}
+                  {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+               
+              {% endfor %}
+              <button type="submit" class="btn btn-outline-primary mt-3" style="min-width: 100%;">Reset</button>
+            </div>
+             
+            </form>
+            </div>
+            <div style="max-width: 30%;" class="mt-5">
+                <p>Enter your email address and we'll send you a link to reset your password.</p>
+            </div>
+            </center>
+
+            
+    </div>
+
+   
+</div>
+ 
+{% endblock content %}
