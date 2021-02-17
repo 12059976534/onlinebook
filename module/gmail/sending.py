@@ -3,7 +3,7 @@ def kirim(p,s,t):
     from email.mime.text import MIMEText as text
 
     server=smtplib.SMTP_SSL("smtp.gmail.com",465)  # inisualisasi objects smtplib (SMTP_SSL)
-    server.login("jekomontainugrah@gmail.com","120599$3") # login ke email 
+    server.login("jekomontainugrah@gmail.com","sandi email ") # login ke email 
 
     m = text(p) # membuat teks message
     m['Subject'] = s # object messege to email
